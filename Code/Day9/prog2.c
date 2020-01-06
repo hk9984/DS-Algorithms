@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct bst{
+	int data;
+	struct bst *rchild;
+	struct bst *lchild;
+};
+
+struct bst* insert(struct bst *,int);
+
+void main()
+{
+	int ch,data;
+	struct bst *root=NULL,*pos;
+	printf("Enter\n1 to Insert\n2 to find\n0 to exit\n");
+	while(1)
+	{
+		printf("enter choice: ");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				printf("Enter Data: ");
+				scanf("%d",&data);
+				root=insert(root,data);
+				continue;
+			case 2:
+				printf("Enter data to find: ");
+				scanf("%d",&data);
+				pos=find(root,data);
+				if(pos==NULL)
+					printf("Element Absent\n");
+				else
+					printf("Position %p\n",pos);
+				continue;
+			case 0:
+				break;
+			default: 
+				continue;
+		}
+		break;
+	}
+}
+
+struct bst* insert(struct bst *root,int data)
+{
+	struct bst *trev,*temp;
+	temp=(struct bst*)malloc(sizeof(struct bst));
+	temp->data=data;
+	temp->lchild=temp->rchild=NULL;
+	trev=root;
+	if(root==NULL)
+		return temp;
+	while(1)
+	{	
+		if(data<trev->data)
+		{
+			if(trev->lchild==NULL)
+			{
+				trev->lchild=temp;
+				return root;
+			}
+			else
+				trev=trev->lchild;
+		}
+		else
+		{
+			if(trev->rchild==NULL)
+			{
+				trev->rchild=temp;
+				return root;
+			}
+			else
+				trev=trev->rchild;
+		}
+	}
+}

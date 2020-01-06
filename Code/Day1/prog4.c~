@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<stdlib.h>
+void largest(int [],int);
+void smallest(int [],int);
+
+void main()
+{
+	int *arr,n,i=0,j=1,k;
+	printf("enter number of elements: ");
+	scanf("%d",&n);
+	arr=(int*)malloc(n*sizeof(int));
+	printf("Enter Elements\n");
+	for(k=0;k<n;k++)
+		scanf("%d",&arr[k]);
+	printf("Calulating..\n");
+	largest(arr,n);
+	smallest(arr,n);
+}
+
+void largest(int arr[],int n)
+{
+	int i=0,j=1;
+	while(j<n)
+	{
+		if(arr[i]>arr[j])
+			j++;
+		else if(arr[j]>arr[i])
+		{
+			i=j;
+			j++;
+		}
+	}
+	printf("Largest Number is %d\n",arr[i]);
+	
+}
+void smallest(int arr[],int n)
+{
+	int i=0,j=1;
+	while(j<n)
+	{
+		if(arr[i]<arr[j])
+			j++;
+		else if(arr[j]<arr[i])
+		{
+			i=j;
+			j++;
+		}
+	}
+	printf("smallest Number is %d\n",arr[i]);
+}

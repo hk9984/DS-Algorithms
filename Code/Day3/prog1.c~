@@ -1,0 +1,128 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct pnode
+{
+	int coef;
+	int exp;
+	struct pnode *next;
+};
+struct pnode* add_end(struct pnode *,int,int);
+void display(struct pnode *);
+struct pnode* poly_add(struct pnode *,struct pnode *);
+
+int main()
+{
+	struct pnode *poly1,*poly2,*poly3;
+	int coeff=0,expp=0,n;
+	poly1=NULL;
+	poly2=NULL;
+	poly3=NULL;
+	printf("enter 1 to add data in polynomial 1\n2 to add data in polynomial 2\n0 to exit\n");
+	while(1)						//Create a link list
+	{
+		printf("enter choice ");
+		scanf("%d",&n);
+		switch(n)
+		{
+		case 1:
+			printf("enter term for poly 1:");
+			scanf("%d%*c%d",&coeff,&expp);
+			poly1=add_end(poly1,coeff,expp);
+			continue;
+		case 2:
+			printf("enter term for poly 2:");
+			scanf("%d%*c%d",&coeff,&expp);
+			poly2=add_end(poly2,coeff,expp);
+			continue;
+		case 0:
+			break;
+		}
+		break;
+	}
+	poly3=poly_add(poly1,poly2);
+	printf("poly1:\n");
+	display(poly1);
+	printf("poly2:\n");
+	display(poly2);
+	printf("poly3:\n");
+	display(poly3);
+	
+	
+}
+
+struct pnode* add_end(struct pnode *head,int coef,int exp)
+{
+	struct pnode *trev,*temp;
+	temp=(struct pnode*)malloc(sizeof(struct pnode));
+	if(head==NULL)
+	{      
+		temp->coef=coef;
+		temp->exp=exp;
+		temp->next=NULL;
+		return temp;
+	}
+	trev=head;
+	while(trev->next!=NULL)
+		trev=trev->next;
+	trev->next=temp;
+	temp->coef=coef;
+	temp->exp=exp;
+	temp->next=NULL;
+	return head;
+}
+
+void display(struct pnode *head)
+{
+	if(head==NULL)
+	{
+		printf("no node present\n");
+		exit(1);
+	}
+	else
+	{
+		while(head->next!=NULL)
+		{
+			printf("(%dx^%d)+",head->coef,head->exp);			
+			head=head->next;
+		}
+		printf("(%dx^%d)\n",head->coef,head->exp);
+	}
+}
+
+struct pnode* poly_add(struct pnode *head1,struct pnode *head2)
+{
+	struct pnode *head3;
+	while(head1!=NULL&&head2!=NULL)
+	{
+		if(head1->exp>head2->exp)
+		{
+			head3=add_end(head3,head1->coef,head1->exp);
+			head1=head1->next;
+		}
+		if(head1->exp==head2->exp)
+		{
+			head3=add_end(head3,(head1->coef+head2->coef),head1->exp);
+			head1=head1->next;
+			head2=head2->next;
+		}
+		if(head2->exp>head1->exp)
+		{
+			head3=add_end(head3,head2->coef,head2->exp);
+			head2=head2->next;
+		}
+	}
+	while(head1!=NULL)
+	{
+		head3=add_end(head3,head1->coef,head1->exp);
+		head1=head1->next;
+	}
+	while(head2!=NULL)
+	{
+		head3=add_end(head3,head2->coef,head2->exp);
+		head2=head2->next;
+	}
+	return head3;
+}
+
+
+
